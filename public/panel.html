@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel Administrativo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<header>
+  <img src="logo.png">
+  <h1>Panel de Reportes</h1>
+</header>
+
+<div class="container">
+
+<h2>Reportes Registrados</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Fecha</th>
+      <th>Unidad</th>
+      <th>Turno</th>
+      <th>Tipo</th>
+      <th>Supervisor</th>
+    </tr>
+  </thead>
+  <tbody id="tablaReportes"></tbody>
+</table>
+
+</div>
+
+<script>
+async function cargarReportes() {
+  const response = await fetch("/api/reportes");
+  const data = await response.json();
+
+  const tabla = document.getElementById("tablaReportes");
+  tabla.innerHTML = "";
+
+  data.forEach(r => {
+    tabla.innerHTML += `
+      <tr>
+        <td>${r.fecha}</td>
+        <td>${r.unidad}</td>
+        <td>${r.turno}</td>
+        <td>${r.tipo}</td>
+        <td>${r.supervisor}</td>
+      </tr>
+    `;
+  });
+}
+
+cargarReportes();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>SISTEMA OPERATIVO - Dirección de Seguridad</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<header>
+  <img src="logo.png" alt="Municipalidad de Santiago">
+  <h1>SISTEMA OPERATIVO</h1>
+  <p>Dirección de Seguridad y Resguardo Municipal</p>
+  <p>Municipalidad de Santiago</p>
+</header>
+
+<div class="container">
+
+<form id="formReporte" enctype="multipart/form-data">
+
+<h2>Identificación del Procedimiento</h2>
+
+<label>Fecha *</label>
+<input type="date" id="fecha" name="fecha" required>
+
+<label>Hora *</label>
+<input type="time" id="hora" name="hora" required>
+
+<label>Unidad *</label>
+<select name="unidad" required>
+  <option value="">Seleccione</option>
+  <option>UTE</option>
+  <option>MOTORIZADO</option>
+  <option>MÓVILES</option>
+  <option>AGENTES DE COPAMIENTO EJE ALAMEDA</option>
+  <option>AGENTES DE COPAMIENTO CASCO HISTÓRICO</option>
+  <option>AGENTES DE COPAMIENTO BARRIOS PRIORIZADOS</option>
+  <option>SERVICIO VIF</option>
+</select>
+
+<label>Turno *</label>
+<select name="turno" required>
+  <option value="">Seleccione</option>
+  <option>T-1 (MAÑANA)</option>
+  <option>T-2 (TARDE)</option>
+  <option>T-3 (NOCHE)</option>
+  <option>T-U (TURNO ÚNICO)</option>
+</select>
+
+<label>Funcionario Responsable *</label>
+<input type="text" name="funcionario" required>
+
+<h2>Ubicación</h2>
+
+<label>Calle *</label>
+<input type="text" id="calleInput" name="calle" list="listaCalles" required>
+<datalist id="listaCalles"></datalist>
+
+<label>Número</label>
+<input type="text" name="numero">
+
+<label>Barrio *</label>
+<select id="barrioSelect" name="barrio" required>
+  <option value="">Seleccione</option>
+</select>
+
+<h2>Clasificación del Servicio</h2>
+
+<label>Categoría Principal *</label>
+<select id="categoria" name="categoria" required>
+  <option value="">Seleccione</option>
+  <option>PATRULLAJE</option>
+  <option>PUNTO FIJO</option>
+  <option>DESPEJE PERSONAS EN SITUACIÓN DE CALLE</option>
+  <option>DECOMISO COMERCIO NO AUTORIZADO</option>
+  <option>FISCALIZACIÓN LOCAL COMERCIAL</option>
+  <option>CONTROL VEHICULAR</option>
+  <option>LABOR EDUCATIVA / PREVENCIÓN ACTIVA</option>
+  <option>APOYO VIF</option>
+</select>
+
+<label>Incivilidad / Delito Detectado</label>
+<select name="incivilidad">
+  <option value="">Seleccione</option>
+  <option>ROBO</option>
+  <option>AMENAZAS</option>
+  <option>MICROTRAFICO</option>
+  <option>USO DE ARMA DE FUEGO</option>
+  <option>RIÑA O AGRESION</option>
+  <option>AGRESIÓN A FUNCIONARIOS</option>
+  <option>RUIDOS MOLESTOS</option>
+  <option>CONSUMO DE ALCOHOL O DROGAS EN VIA PUBLICA</option>
+  <option>VEHICULO MAL ESTACIONADO</option>
+</select>
+
+<!-- BLOQUE DESPEJE PERSONAS -->
+<div id="bloqueDespeje" style="display:none;">
+<h2>Detalle Despeje Personas en Situación de Calle</h2>
+<label>Cantidad de Personas</label>
+<input type="number" name="cantidad_personas" min="0">
+<label>Cantidad de Rucos</label>
+<input type="number" name="cantidad_rucos" min="0">
+<label>Materiales retirados</label>
+<input type="text" name="materiales_rucos">
+<label>¿Se encontraron armas?</label>
+<select name="armas_encontradas">
+<option value="">Seleccione</option>
+<option>SI</option>
+<option>NO</option>
+</select>
+<label>¿Se encontró droga?</label>
+<select name="droga_encontrada">
+<option value="">Seleccione</option>
+<option>SI</option>
+<option>NO</option>
+</select>
+</div>
+
+<!-- BLOQUE DECOMISO -->
+<div id="bloqueDecomiso" style="display:none;">
+<h2>Detalle Decomiso</h2>
+<label>Carros</label>
+<input type="number" name="carros" min="0">
+<label>Toldos</label>
+<input type="number" name="toldos" min="0">
+<label>Enseres</label>
+<input type="number" name="enseres" min="0">
+<label>Alimentos (KG)</label>
+<input type="number" name="alimentos" min="0">
+<label>Bebidas alcohólicas</label>
+<input type="number" name="bebidas" min="0">
+</div>
+
+<!-- BLOQUE CONTROL VEHICULAR -->
+<div id="bloqueVehicular" style="display:none;">
+<h2>Detalle Control Vehicular</h2>
+<label>Vehículos Fiscalizados</label>
+<input type="number" name="vehiculos_fiscalizados" min="0">
+<label>Vehículos Mal Estacionados</label>
+<input type="number" name="vehiculos_mal_estacionados" min="0">
+</div>
+
+<h2>Registro Fotográfico</h2>
+<input type="file" name="imagen" accept="image/*" capture="environment">
+
+<h2>Observación / Relato *</h2>
+<textarea name="relato" rows="5" required></textarea>
+
+<br><br>
+<button type="submit">Registrar Procedimiento</button>
+
+</form>
+</div>
+
+<script src="calles.js"></script>
+<script src="barrios.js"></script>
+
+<script>
+
+// Fecha y hora automática
+document.getElementById("fecha").valueAsDate = new Date();
+const ahora = new Date();
+document.getElementById("hora").value =
+  String(ahora.getHours()).padStart(2,'0') + ":" +
+  String(ahora.getMinutes()).padStart(2,'0');
+
+// Cargar calles
+const datalist = document.getElementById("listaCalles");
+listaCalles.forEach(calle => {
+  const option = document.createElement("option");
+  option.value = calle;
+  datalist.appendChild(option);
+});
+
+// Cargar barrios
+const selectBarrio = document.getElementById("barrioSelect");
+listaBarrios.forEach(barrio => {
+  const option = document.createElement("option");
+  option.value = barrio;
+  option.textContent = barrio;
+  selectBarrio.appendChild(option);
+});
+
+// Mostrar bloques según categoría
+document.getElementById("categoria").addEventListener("change", function() {
+
+  document.getElementById("bloqueDespeje").style.display = "none";
+  document.getElementById("bloqueDecomiso").style.display = "none";
+  document.getElementById("bloqueVehicular").style.display = "none";
+
+  if(this.value === "DESPEJE PERSONAS EN SITUACIÓN DE CALLE"){
+    document.getElementById("bloqueDespeje").style.display = "block";
+  }
+
+  if(this.value === "DECOMISO COMERCIO NO AUTORIZADO" ||
+     this.value === "FISCALIZACIÓN LOCAL COMERCIAL"){
+    document.getElementById("bloqueDecomiso").style.display = "block";
+  }
+
+  if(this.value === "CONTROL VEHICULAR"){
+    document.getElementById("bloqueVehicular").style.display = "block";
+  }
+
+});
+
+// Enviar formulario
+document.getElementById("formReporte").addEventListener("submit", async function(e){
+  e.preventDefault();
+  const formData = new FormData(this);
+
+  const response = await fetch("/api/reportes", {
+    method: "POST",
+    body: formData
+  });
+
+  const result = await response.json();
+  alert(result.mensaje);
+  this.reset();
+});
+
+</script>
+
+</body>
+</html>
