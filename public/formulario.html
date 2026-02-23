@@ -9,7 +9,6 @@
 <body>
 
 <header>
-  <img src="logo.png" alt="Municipalidad de Santiago">
   <h1>SISTEMA OPERATIVO</h1>
   <p>Dirección de Seguridad y Resguardo Municipal</p>
   <p>Municipalidad de Santiago</p>
@@ -17,7 +16,7 @@
 
 <div class="container">
 
-<form id="formReporte" enctype="multipart/form-data">
+<form action="/guardar" method="POST">
 
 <h2>Identificación del Procedimiento</h2>
 
@@ -30,13 +29,10 @@
 <label>Unidad *</label>
 <select name="unidad" required>
   <option value="">Seleccione</option>
-  <option>UTE</option>
-  <option>MOTORIZADO</option>
   <option>MÓVILES</option>
-  <option>AGENTES DE COPAMIENTO EJE ALAMEDA</option>
+  <option>UTE</option>
   <option>AGENTES DE COPAMIENTO CASCO HISTÓRICO</option>
-  <option>AGENTES DE COPAMIENTO BARRIOS PRIORIZADOS</option>
-  <option>SERVICIO VIF</option>
+  <option>AGENTES DE COPAMIENTO EJE ALAMEDA</option>
 </select>
 
 <label>Turno *</label>
@@ -49,26 +45,28 @@
 </select>
 
 <label>Funcionario Responsable *</label>
-<input type="text" name="funcionario" required>
+<select id="funcionarioSelect" name="funcionario" required>
+  <option value="">Seleccione</option>
+</select>
+
+<label>Supervisor</label>
+<input type="text" id="supervisorInput" name="supervisor" readonly>
 
 <h2>Ubicación</h2>
 
 <label>Calle *</label>
-<input type="text" id="calleInput" name="calle" list="listaCalles" required>
-<datalist id="listaCalles"></datalist>
+<input type="text" name="calle" required>
 
 <label>Número</label>
 <input type="text" name="numero">
 
 <label>Barrio *</label>
-<select id="barrioSelect" name="barrio" required>
-  <option value="">Seleccione</option>
-</select>
+<input type="text" name="barrio" required>
 
 <h2>Clasificación del Servicio</h2>
 
 <label>Categoría Principal *</label>
-<select id="categoria" name="categoria" required>
+<select name="categoria" required>
   <option value="">Seleccione</option>
   <option>PATRULLAJE</option>
   <option>PUNTO FIJO</option>
@@ -80,69 +78,17 @@
   <option>APOYO VIF</option>
 </select>
 
-<label>Incivilidad / Delito Detectado</label>
-<select name="incivilidad">
-  <option value="">Seleccione</option>
-  <option>ROBO</option>
-  <option>AMENAZAS</option>
-  <option>MICROTRAFICO</option>
-  <option>USO DE ARMA DE FUEGO</option>
-  <option>RIÑA O AGRESION</option>
-  <option>AGRESIÓN A FUNCIONARIOS</option>
-  <option>RUIDOS MOLESTOS</option>
-  <option>CONSUMO DE ALCOHOL O DROGAS EN VIA PUBLICA</option>
-  <option>VEHICULO MAL ESTACIONADO</option>
-</select>
+<h3>Incivilidades / Delitos Detectados</h3>
 
-<!-- BLOQUE DESPEJE PERSONAS -->
-<div id="bloqueDespeje" style="display:none;">
-<h2>Detalle Despeje Personas en Situación de Calle</h2>
-<label>Cantidad de Personas</label>
-<input type="number" name="cantidad_personas" min="0">
-<label>Cantidad de Rucos</label>
-<input type="number" name="cantidad_rucos" min="0">
-<label>Materiales retirados</label>
-<input type="text" name="materiales_rucos">
-<label>¿Se encontraron armas?</label>
-<select name="armas_encontradas">
-<option value="">Seleccione</option>
-<option>SI</option>
-<option>NO</option>
-</select>
-<label>¿Se encontró droga?</label>
-<select name="droga_encontrada">
-<option value="">Seleccione</option>
-<option>SI</option>
-<option>NO</option>
-</select>
-</div>
-
-<!-- BLOQUE DECOMISO -->
-<div id="bloqueDecomiso" style="display:none;">
-<h2>Detalle Decomiso</h2>
-<label>Carros</label>
-<input type="number" name="carros" min="0">
-<label>Toldos</label>
-<input type="number" name="toldos" min="0">
-<label>Enseres</label>
-<input type="number" name="enseres" min="0">
-<label>Alimentos (KG)</label>
-<input type="number" name="alimentos" min="0">
-<label>Bebidas alcohólicas</label>
-<input type="number" name="bebidas" min="0">
-</div>
-
-<!-- BLOQUE CONTROL VEHICULAR -->
-<div id="bloqueVehicular" style="display:none;">
-<h2>Detalle Control Vehicular</h2>
-<label>Vehículos Fiscalizados</label>
-<input type="number" name="vehiculos_fiscalizados" min="0">
-<label>Vehículos Mal Estacionados</label>
-<input type="number" name="vehiculos_mal_estacionados" min="0">
-</div>
-
-<h2>Registro Fotográfico</h2>
-<input type="file" name="imagen" accept="image/*" capture="environment">
+<label><input type="checkbox" name="incivilidad" value="ROBO"> ROBO</label><br>
+<label><input type="checkbox" name="incivilidad" value="AMENAZAS"> AMENAZAS</label><br>
+<label><input type="checkbox" name="incivilidad" value="MICROTRAFICO"> MICROTRAFICO</label><br>
+<label><input type="checkbox" name="incivilidad" value="USO DE ARMA DE FUEGO"> USO DE ARMA DE FUEGO</label><br>
+<label><input type="checkbox" name="incivilidad" value="RIÑA O AGRESION"> RIÑA O AGRESION</label><br>
+<label><input type="checkbox" name="incivilidad" value="AGRESIÓN A FUNCIONARIOS"> AGRESIÓN A FUNCIONARIOS</label><br>
+<label><input type="checkbox" name="incivilidad" value="RUIDOS MOLESTOS"> RUIDOS MOLESTOS</label><br>
+<label><input type="checkbox" name="incivilidad" value="CONSUMO DE ALCOHOL O DROGAS EN VIA PUBLICA"> CONSUMO EN VIA PUBLICA</label><br>
+<label><input type="checkbox" name="incivilidad" value="VEHICULO MAL ESTACIONADO"> VEHICULO MAL ESTACIONADO</label><br>
 
 <h2>Observación / Relato *</h2>
 <textarea name="relato" rows="5" required></textarea>
@@ -153,11 +99,13 @@
 </form>
 </div>
 
-<script src="calles.js"></script>
-<script src="barrios.js"></script>
+<!-- ============================= -->
+<!-- SCRIPTS -->
+<!-- ============================= -->
+
+<script src="funcionarios.js"></script>
 
 <script>
-
 // Fecha y hora automática
 document.getElementById("fecha").valueAsDate = new Date();
 const ahora = new Date();
@@ -165,60 +113,26 @@ document.getElementById("hora").value =
   String(ahora.getHours()).padStart(2,'0') + ":" +
   String(ahora.getMinutes()).padStart(2,'0');
 
-// Cargar calles
-const datalist = document.getElementById("listaCalles");
-listaCalles.forEach(calle => {
+// Cargar funcionarios
+const selectFuncionario = document.getElementById("funcionarioSelect");
+const supervisorInput = document.getElementById("supervisorInput");
+
+funcionarios.forEach(f => {
   const option = document.createElement("option");
-  option.value = calle;
-  datalist.appendChild(option);
+  option.value = f.nombre;
+  option.textContent = f.nombre + " (" + f.unidad + ")";
+  selectFuncionario.appendChild(option);
 });
 
-// Cargar barrios
-const selectBarrio = document.getElementById("barrioSelect");
-listaBarrios.forEach(barrio => {
-  const option = document.createElement("option");
-  option.value = barrio;
-  option.textContent = barrio;
-  selectBarrio.appendChild(option);
-});
-
-// Mostrar bloques según categoría
-document.getElementById("categoria").addEventListener("change", function() {
-
-  document.getElementById("bloqueDespeje").style.display = "none";
-  document.getElementById("bloqueDecomiso").style.display = "none";
-  document.getElementById("bloqueVehicular").style.display = "none";
-
-  if(this.value === "DESPEJE PERSONAS EN SITUACIÓN DE CALLE"){
-    document.getElementById("bloqueDespeje").style.display = "block";
+// Autocompletar supervisor
+selectFuncionario.addEventListener("change", function() {
+  const seleccionado = funcionarios.find(f => f.nombre === this.value);
+  if (seleccionado) {
+    supervisorInput.value = seleccionado.supervisor;
+  } else {
+    supervisorInput.value = "";
   }
-
-  if(this.value === "DECOMISO COMERCIO NO AUTORIZADO" ||
-     this.value === "FISCALIZACIÓN LOCAL COMERCIAL"){
-    document.getElementById("bloqueDecomiso").style.display = "block";
-  }
-
-  if(this.value === "CONTROL VEHICULAR"){
-    document.getElementById("bloqueVehicular").style.display = "block";
-  }
-
 });
-
-// Enviar formulario
-document.getElementById("formReporte").addEventListener("submit", async function(e){
-  e.preventDefault();
-  const formData = new FormData(this);
-
-  const response = await fetch("/api/reportes", {
-    method: "POST",
-    body: formData
-  });
-
-  const result = await response.json();
-  alert(result.mensaje);
-  this.reset();
-});
-
 </script>
 
 </body>
